@@ -1,7 +1,7 @@
 Vue.createApp({
     data() {
         return {
-            showing: true,
+            showApp: false,
             categories: [
                 { name: "Rosto", id: "face" },
                 { name: "Cabelo", id: "hair" },
@@ -126,10 +126,13 @@ Vue.createApp({
     },
 
     methods: {
-        // GET_MESSAGES({ data }) {
-        //     const [action, ...args] = data;
-        //     this[action]([...args]);
-        // },
+        GET_MESSAGES({ data }) {
+            const [action, ...args] = data;
+            this[action]([...args]);
+        },
+        toggleAppVisibility([status]) {
+            this.showApp = status;
+        },
 
         manageVisibility([status]) {
             if (status) {
@@ -146,7 +149,6 @@ Vue.createApp({
                      this.charData = [...res,...this.charData];
                 })()
             }
-            this.showing = status;
         },
 
         async downParent(parent) {
@@ -235,7 +237,6 @@ Vue.createApp({
         window.addEventListener('keydown', async (event) => {
             if (event.keyCode === 27) {
                 await this.post("onClose");
-                this.showing = false;
             }
         });
     },

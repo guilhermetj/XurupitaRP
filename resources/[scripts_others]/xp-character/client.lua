@@ -55,7 +55,9 @@ function TriggerCreateCharacter()
 	SetEntityHeading(PlayerPedId(),f(320))
 	Citizen.Wait(1000)
 	SetNuiFocus(isInCharacterMode,isInCharacterMode)
-	SendNUIMessage({ "manageVisibility", isInCharacterMode })
+	-- SendNUIMessage({ "manageVisibility", isInCharacterMode })
+	print("toggleAppVisibility")
+	SendNUIMessage({ "toggleAppVisibility", isInCharacterMode })
 	EndFade()
 end
 
@@ -187,17 +189,16 @@ RegisterNUICallback('cDoneSave',function(data,cb)
 	cb(true)
 
 	Wait(5000)
-
+	SendNUIMessage({ "toggleAppVisibility", isInCharacterMode })
+	TriggerEvent("vrp_hud:tooglehud")
 	EndFade()
 	SetEntityInvincible(PlayerPedId(),false)
 	SetEntityVisible(PlayerPedId(),true)
 	FreezeEntityPosition(PlayerPedId(),false)
-
 	SetCamActive(cam,false)
 	StopCamPointing(cam)
 	RenderScriptCams(0,0,0,0,0,0)
 	SetFocusEntity(PlayerPedId())
-	TriggerEvent("vrp_hud:tooglehud")
 end)
 
 local getCharacterDrawable = function(part)

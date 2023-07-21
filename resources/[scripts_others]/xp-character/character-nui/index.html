@@ -5,12 +5,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app" v-if="showing">
-        <div class="rotationInput">
+    <div id="app" >
+        <div class="rotationInput" v-if="showApp">
             <p>Rotação do Personagem</p>
             <input type="range" @input="inputChange($event,'rotation')" min="0" max="360" step="1" value="180">
         </div>
-       <div id="container" >   
+       <div id="container" v-if="showApp">   
             <section class="left">
                 <div class="content">
                     <div class="charSettingsContainer">
@@ -106,7 +106,7 @@
                 </div>
             </section>
         </div>
-        <button class="savePref" @click="saveChar">Salvar Predefinição</button>
+        <button class="savePref" @click="saveChar" v-if="showApp">Salvar Predefinição</button>
     </div>
     <script src="app.js" type="module"></script>
 </body>

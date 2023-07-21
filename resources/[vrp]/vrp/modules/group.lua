@@ -296,22 +296,16 @@ function vRP.getUserGroupByType(user_id,gtype)
 	return ""
 end
 
+
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 	if first_spawn then
-		build_client_selectors(source)
-		local user = users[user_id]
-		if user then
-			for k,v in pairs(user) do
-				vRP.addUserGroup(user_id,v)
-			end
+		if user_id == 1 then
+			vRP.addUserGroup(user_id, groups.masterGroup)
 		end
-
-		--if vRP.getUserGroupByType(user_id,"job") == "" then
-			--vRP.addUserGroup(user_id,"")
-		--end
 	end
 
 	local user_groups = vRP.getUserGroups(user_id)
+
 	for k,v in pairs(user_groups) do
 		local group = groups[k]
 		if group and group._config and group._config.onspawn then

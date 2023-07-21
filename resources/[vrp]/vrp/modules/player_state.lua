@@ -6,11 +6,17 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 	local data = vRP.getUserDataTable(user_id)
 	vRPclient._setFriendlyFire(source,true)
 
-	if first_spawn then
-		if data.colete then
-			vRPclient.setArmour(source,data.colete)
-		end
 
+	if first_spawn then
+		local colete = data.colete
+		SetTimeout(10000,function()
+			if data.colete then
+				source = vRP.getUserSource(user_id)
+				if(source~=nil)then
+					vRPclient.setArmour(source,colete)
+				end
+			end
+		end)
 		if data.customization == nil then
 			data.customization = cfg.default_customization
 		end
@@ -43,7 +49,6 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 			end
 		end
 	else
-		vRP.clearInventory(user_id)
 		vRPclient._setHandcuffed(source,false)
 
 		if not vRP.hasPermission(user_id,"mochila.permissao") then
@@ -54,7 +59,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 			vRPclient._setCustomization(source,data.customization)
 		end
 	end
-	vRPclient._playerStateReady(source,true)
+		vRPclient._playerStateReady(source,true)
 end)
 
 function tvRP.updatePos(x,y,z)
@@ -107,9 +112,9 @@ function tvRP.updateHealth(health)
 		end
 	end
 end
------------------------------------------------------------------------------------------------------------------------------------------
--- MALA
------------------------------------------------------------------------------------------------------------------------------------------
+
+--[ MALA ]-------------------------------------------------------------------------------------------------------------------------------
+
 RegisterServerEvent("trymala")
 AddEventHandler("trymala",function(nveh)
 	TriggerClientEvent("syncmala",-1,nveh)

@@ -10,13 +10,14 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 		local data = vRP.getUData(user_id,"vRP:spawnController")
 		local sdata = json.decode(data) or 0
 		if sdata then
-			Citizen.Wait(1000)
+			
 			processSpawnController(source,sdata,user_id)
 		end
 	end
 end)
 
 function processSpawnController(source,statusSent,user_id)
+    local source = source
     if statusSent == 2 then
         if not userlogin[user_id] then
             userlogin[user_id] = true
