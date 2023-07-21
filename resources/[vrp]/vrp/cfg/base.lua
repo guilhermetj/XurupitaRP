@@ -8,6 +8,6 @@ cfg.db = {
 	password = ""
 }
 
-cfg.whitelist = true -- Sem whitelist: false/ Com: true
+cfg.whitelist = false -- Sem whitelist: false/ Com: true
 
 return cfg
