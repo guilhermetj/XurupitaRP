@@ -133,6 +133,7 @@ RegisterCommand("hud",function(source,args)
 	SendNUIMessage({ hud = showHud })
 	updateDisplayHud(PlayerPedId())
 	TriggerEvent("vrp_prison:switchHud",showHud)
+	TriggerEvent("compass:tooglehud")
 end)
 
 RegisterNetEvent('gcphone:tooglehud')
@@ -149,6 +150,7 @@ AddEventHandler('vrp_hud:tooglehud',function()
     SendNUIMessage({ hud = showHud })
     updateDisplayHud(PlayerPedId())
     TriggerEvent("vrp_prison:switchHud",showHud)
+	TriggerEvent("compass:tooglehud")
 end)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- MOVIE

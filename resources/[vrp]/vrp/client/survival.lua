@@ -29,6 +29,12 @@ function tvRP.sedeFome()
 	vRPserver.varyHunger(-100)
 end
 
+--[ VELOCIDADE ]-------------------------------------------------------------------------------------------------------------------------
+
+function tvRP.getSpeed()
+	return GetEntitySpeed(PlayerPedId())
+end
+
 --[ SEDE & FOME THREAD ]-----------------------------------------------------------------------------------------------------------------
 
 Citizen.CreateThread(function()
@@ -37,8 +43,8 @@ Citizen.CreateThread(function()
 
 		if IsPlayerPlaying(PlayerId()) then
 			local ped = GetPlayerPed(-1)
-			local vthirst = 0.1
-			local vhunger = 0.1
+			local vthirst = 100
+			local vhunger = 100
 
 			if IsPedOnFoot(ped) then
 				local factor = math.min(tvRP.getSpeed(),10)

@@ -39,6 +39,19 @@ Citizen.CreateThread( function()
 	while compass.show do
 		Wait( 0 )
 		
+			RegisterNetEvent('compass:tooglehud')
+			AddEventHandler('compass:tooglehud',function(state)
+				
+				if compass.fov == 180 then
+					Wait( 200 )
+					compass.fov = 0
+				else
+					Wait( 200 )
+					compass.fov = 180
+				end 
+				
+			end)
+
 		local pxDegree = compass.width / compass.fov
 		local playerHeadingDegrees = 0
 		
