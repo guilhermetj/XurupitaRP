@@ -1,7 +1,7 @@
 Vue.createApp({
     data() {
         return {
-            showing: false,
+            showing: true,
             categories: [
                 { name: "Rosto", id: "face" },
                 { name: "Cabelo", id: "hair" },
@@ -126,10 +126,10 @@ Vue.createApp({
     },
 
     methods: {
-        GET_MESSAGES({ data }) {
-            const [action, ...args] = data;
-            this[action]([...args]);
-        },
+        // GET_MESSAGES({ data }) {
+        //     const [action, ...args] = data;
+        //     this[action]([...args]);
+        // },
 
         manageVisibility([status]) {
             if (status) {
@@ -143,7 +143,7 @@ Vue.createApp({
                             value++;
                         }
                     }
-                    // this.charData = [...res,...this.charData];
+                     this.charData = [...res,...this.charData];
                 })()
             }
             this.showing = status;

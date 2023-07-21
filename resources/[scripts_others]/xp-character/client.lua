@@ -1,23 +1,12 @@
-local Tunnel = module("vrp", "lib/Tunnel")
-local Proxy = module("vrp", "lib/Proxy")
-vRP = Proxy.getInterface("vRP")
-
-PL = {}
-Tunnel.bindInterface("xp-character", PL)
-vSERVER = Tunnel.getInterface("xp-character")
-
 RegisterNetEvent("xp-character:characterCreate")
 
 local cam = nil
+local isInCharacterMode = false
+local currentCharacterMode = { fathersID = 0, mothersID = 21, skinColor = 0, skinColor2 = 0, shapeMix = 0.6, shapeMix2 = 0.0, eyesColor = 0, eyebrowsHeight = 0, eyebrowsWidth = 0, noseWidth = 0, noseHeight = 0, noseLength = 0, noseBridge = 0, noseTip = 0, noseShift = 0, cheekboneHeight = 0, cheekboneWidth = 0, cheeksWidth = 0, lips = 0, jawWidth = 0, jawHeight = 0, chinLength = 0, chinPosition = 0, chinWidth = 0, chinShape = 0, neckWidth = 0, hairModel = 4, firstHairColor = 0, secondHairColor = 0, eyebrowsModel = 0, eyebrowsColor = 0, beardModel = -1, beardColor = 0, chestModel = -1, chestColor = 0, blushModel = -1, blushColor = 0, lipstickModel = -1, lipstickColor = 0, blemishesModel = -1, ageingModel = -1, complexionModel = -1, sundamageModel = -1, frecklesModel = -1, makeupModel = -1 }
 
 function f(n)
 	n = n + 0.00000
 	return n
-end
-
-function setCamHeight(height)
-	local pos = GetEntityCoords(PlayerPedId())
-	SetCamCoord(cam,vector3(pos.x,pos.y,f(height)))
 end
 
 local function StartFade()
@@ -36,28 +25,23 @@ local function EndFade()
 end
 
 AddEventHandler("xp-character:characterCreate",function()
-
+	TriggerEvent("vrp_hud:tooglehud")
 	local ped = PlayerPedId()
 	SetEntityInvincible(ped,false) --mqcu
 	SetEntityVisible(ped,true,false)
 	FreezeEntityPosition(ped,true)
-
+	print("iniciando")
 	SetTimeout(1000,function()
+		TriggerCreateCharacter()
 		if not DoesCamExist(cam) then
 			cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",false)
-			
 			SetCamCoord(cam,vector3(975.70,65.80,116.70))   
-	        SetCamRot(cam,0.0,0.0,149.00,2) 
+	        SetCamRot(cam,0.0,0.0,149.00,2)
 			SetCamActive(cam,true)
 			RenderScriptCams(true,true,20000000000000000000000000,0,0,0)
 		end
-		
-		TriggerCreateCharacter()
 	end)
 end)
-
-local isInCharacterMode = false
-local currentCharacterMode = { fathersID = 0, mothersID = 21, skinColor = 0, skinColor2 = 0, shapeMix = 0.6, shapeMix2 = 0.0, eyesColor = 0, eyebrowsHeight = 0, eyebrowsWidth = 0, noseWidth = 0, noseHeight = 0, noseLength = 0, noseBridge = 0, noseTip = 0, noseShift = 0, cheekboneHeight = 0, cheekboneWidth = 0, cheeksWidth = 0, lips = 0, jawWidth = 0, jawHeight = 0, chinLength = 0, chinPosition = 0, chinWidth = 0, chinShape = 0, neckWidth = 0, hairModel = 4, firstHairColor = 0, secondHairColor = 0, eyebrowsModel = 0, eyebrowsColor = 0, beardModel = -1, beardColor = 0, chestModel = -1, chestColor = 0, blushModel = -1, blushColor = 0, lipstickModel = -1, lipstickColor = 0, blemishesModel = -1, ageingModel = -1, complexionModel = -1, sundamageModel = -1, frecklesModel = -1, makeupModel = -1 }
 
 function TriggerCreateCharacter()
 	isInCharacterMode = true
@@ -69,10 +53,10 @@ function TriggerCreateCharacter()
 	TaskUpdateHeadOptions()
 	SetEntityCoordsNoOffset(PlayerPedId(),975.2,64.95,116.16,true,true,true) 
 	SetEntityHeading(PlayerPedId(),f(320))
-	Wait(5000)
-	EndFade()
+	Citizen.Wait(1000)
 	SetNuiFocus(isInCharacterMode,isInCharacterMode)
 	SendNUIMessage({ "manageVisibility", isInCharacterMode })
+	EndFade()
 end
 
 function refreshDefaultCharacter()
@@ -147,7 +131,7 @@ end)
 RegisterNUICallback('cDoneSave',function(data,cb)
 	isInCharacterMode = false
 	SetNuiFocus(isInCharacterMode,isInCharacterMode)
-	SendNUIMessage({ 'manageVisibility',false })
+	SendNUIMessage({ CharacterMode = isInCharacterMode, CharacterMode2 = isInCharacterMode, CharacterMode3 = isInCharacterMode })
 	if GetEntityModel(PlayerPedId()) == GetHashKey("mp_m_freemode_01") then
         SetPedComponentVariation(PlayerPedId(),1,-1,0,2)
         SetPedComponentVariation(PlayerPedId(),5,-1,0,2)
@@ -184,7 +168,6 @@ RegisterNUICallback('cDoneSave',function(data,cb)
 	local characterNome = data.name 
     local characterSobrenome = data.lastName 
     local characterAge = tonumber(data.age) or 0
-
     if 1 > #characterNome then 
         TriggerEvent("nyo_notify", "#FFA500","Importante", "O nome do personagem precisa ser maior", 5000)
         return 
@@ -200,7 +183,7 @@ RegisterNUICallback('cDoneSave',function(data,cb)
         return
     end
 	StartFade()	
-	vSERVER.finishedCharacter(characterNome,characterSobrenome,characterAge,currentCharacterMode)
+	TriggerServerEvent("xp-character:finishedCharacter", characterNome,characterSobrenome,characterAge,currentCharacterMode)
 	cb(true)
 
 	Wait(5000)
@@ -214,6 +197,7 @@ RegisterNUICallback('cDoneSave',function(data,cb)
 	StopCamPointing(cam)
 	RenderScriptCams(0,0,0,0,0,0)
 	SetFocusEntity(PlayerPedId())
+	TriggerEvent("vrp_hud:tooglehud")
 end)
 
 local getCharacterDrawable = function(part)

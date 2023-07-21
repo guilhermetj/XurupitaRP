@@ -3,28 +3,20 @@ local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 
-PL = {}
-Tunnel.bindInterface("xp-character", PL)
-vSERVER = Tunnel.getInterface("xp-character")
-
 local userlogin = {}
 
-RegisterCommand("nexusch",function(source)
-    TriggerClientEvent("xp-character:characterCreate",source)
-end)
-
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
-    if first_spawn then
-        local data = vRP.getUData(user_id,"vRP:spawnController")
-        local spawnStatus = json.decode(data) or 0
-        SetTimeout(5000, function()
-            processSpawnController(source, spawnStatus, user_id)
-        end)
-    end
+	if first_spawn then
+		local data = vRP.getUData(user_id,"vRP:spawnController")
+		local sdata = json.decode(data) or 0
+		if sdata then
+			Citizen.Wait(1000)
+			processSpawnController(source,sdata,user_id)
+		end
+	end
 end)
 
 function processSpawnController(source,statusSent,user_id)
-    local source = source
     if statusSent == 2 then
         if not userlogin[user_id] then
             userlogin[user_id] = true
@@ -38,22 +30,23 @@ function processSpawnController(source,statusSent,user_id)
     end
 end
 
-function PL.finishedCharacter(characterNome, characterSobrenome, characterAge, currentCharacterMode)
-    local source = source
-    local user_id = vRP.getUserId(source)
-    local identity = vRP.getUserIdentity(user_id)
-
-    if user_id then
-        local player = vRP.getUserSource(user_id)
-
-        vRP.setUData(user_id,"currentCharacterMode", json.encode(currentCharacterMode))
-        vRP.setUData(user_id,"vRP:spawnController", json.encode(2))
-        vRP.execute("vRP/update_user_first_spawn", {user_id = user_id,name = characterNome,firstname = characterSobrenome,age = characterAge})
-        doSpawnPlayer(source,user_id,true)
-    end
-end
+RegisterServerEvent("xp-character:finishedCharacter")
+AddEventHandler("xp-character:finishedCharacter",function(characterNome,characterSobrenome,characterIdade,currentCharacterMode)
+	local source = source
+	local user_id = vRP.getUserId(source)
+	if user_id then
+		vRP.setUData(user_id,"currentCharacterMode",json.encode(currentCharacterMode))
+		vRP.setUData(user_id,"vRP:spawnController",json.encode(2))
+		
+		if user_id == 1 then
+			vRP.addUserGroup(1,'manager')
+		end
+		vRP.execute("vRP/update_user_first_spawn",{ user_id = user_id, firstname = characterSobrenome, name = characterNome, age = characterIdade })
+		doSpawnPlayer(source,user_id,true)
+	end
+end)
 
 function doSpawnPlayer(source,user_id,firstspawn)
-    TriggerClientEvent("vrp:ToogleLoginMenu",source)
-    TriggerEvent("barbershop:init",user_id)
+    -- TriggerClientEvent("xp-character:normalSpawn",source,firstspawn)
+	TriggerEvent("creator-barbershop:init",user_id)
 end

@@ -5,58 +5,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app">
-        <div class="rotationInput" v-if="showing">
+    <div id="app" v-if="showing">
+        <div class="rotationInput">
             <p>Rotação do Personagem</p>
             <input type="range" @input="inputChange($event,'rotation')" min="0" max="360" step="1" value="180">
         </div>
-       <div id="container" v-if="showing">
+       <div id="container" >   
             <section class="left">
-                <img class="headerImg" src="assets/appearance.png">
-                <div class="content">
-                    <div class="categories">
-                        <div class="category" v-for="category in categories" @click="selectedCategory = category.id">
-                            <div class="icon" :class="{'selectedCategory': category.id === selectedCategory}">
-                                <img :src="`./assets/categories/${category.id}.svg`">
-                            </div>
-                            <p :style="{color: category.id === selectedCategory ? 'white' : '#4c4c4c'}">{{category.name}}</p>
-                            <span class="selectCircle" :class="{'activeCircle': category.id === selectedCategory}"></span>
-                        </div>
-                    </div>
-                    <div class="itensContainer">
-                        <div class="itensList">
-                            <div class="item" v-for="item in charCategories">
-                                <p>{{item.optionName}}</p>
-                                <span>{{item.value ? item.value : item.min}}</span>
-                                <input type="range" @input="inputChange($event, item.optionId)"  :min="item.min" :max="item.max" :step="item.step" :value="item.value ? item.value : item.min">
-                            </div>
-                        </div>
-                        <button class="savePref" @click="saveChar">Salvar Predefinição</button>
-                    </div>
-                </div>
-            </section>
-            <section class="right">
-                <img class="headerImg" style="margin-top: 1.05vw;" src="assets/char.png">
                 <div class="content">
                     <div class="charSettingsContainer">
                         <div class="box">
-                            <p class="inputLabel">Sexo</p>
-                            <div class="sexOptions">
-                                <div class="sexBox" @click="changeGenreTo('masculine')" :class="{'selectedSex': data.selectedSex === 'masculine'}">
-                                    <img src="assets/masc.svg" alt="" srcset="">
-                                    <p>Masculino</p>
-                                </div>
-                                <div class="sexBox" @click="changeGenreTo('feminine')" :class="{'selectedSex': data.selectedSex === 'feminine'}">
-                                    <img src="assets/fem.svg" alt="" srcset="">
-                                    <p>Feminino</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box">
-                            <p class="inputLabel">Nome & Sobrenome</p>
                             <div style="display:flex;gap:.5vw;width: 100%;">
-                                <input class="charInput" @change="data.charName = $event.target.value" placeholder="Digite aqui" name="Nome" type="text">
-                                <input class="charInput" @change="data.charLastname = $event.target.value" placeholder="Digite aqui" name="Sobrenome" type="text">
+                                <input class="charInput" @change="data.charName = $event.target.value" placeholder="Nome" name="Nome" type="text">
+                                <input class="charInput" @change="data.charLastname = $event.target.value" placeholder="Sobrenome" name="Sobrenome" type="text">
                             </div>
                             <p class="inputLabel">Idade</p>
                             <div class="ageBox">
@@ -73,6 +34,19 @@
                                     <p class="opacity">{{data.charAge+4}}</p>
                                 </div>
                                 <button @click="upAge">></button>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <p class="inputLabel">Sexo</p>
+                            <div class="sexOptions">
+                                <div class="sexBox" @click="changeGenreTo('masculine')" :class="{'selectedSex': data.selectedSex === 'masculine'}">
+                                    <img src="assets/masc.svg" alt="" srcset="">
+                                    <p>Masculino</p>
+                                </div>
+                                <div class="sexBox" @click="changeGenreTo('feminine')" :class="{'selectedSex': data.selectedSex === 'feminine'}">
+                                    <img src="assets/fem.svg" alt="" srcset="">
+                                    <p>Feminino</p>
+                                </div>
                             </div>
                         </div>
                         <div class="box">
@@ -109,11 +83,31 @@
                     </div>
                 </div>
             </section>
-            
+            <section class="right">
+                <div class="content">
+                    <div class="itensContainer">
+                    <div class="categories">
+                        <div class="category" v-for="category in categories" @click="selectedCategory = category.id">
+                            <div class="icon" :class="{'selectedCategory': category.id === selectedCategory}">
+                                <img :src="`./assets/categories/${category.id}.svg`">
+                            </div>
+                            <p :style="{color: category.id === selectedCategory ? 'white' : '#557b83'}">{{category.name}}</p>
+                            <span class="selectCircle" :class="{'activeCircle': category.id === selectedCategory}"></span>
+                        </div>
+                    </div>
+                        <div class="itensList">
+                            <div class="item" v-for="item in charCategories">
+                                <p>{{item.optionName}}</p>
+                                <span>{{item.value ? item.value : item.min}}</span>
+                                <input type="range" @input="inputChange($event, item.optionId)"  :min="item.min" :max="item.max" :step="item.step" :value="item.value ? item.value : item.min">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-    
+        <button class="savePref" @click="saveChar">Salvar Predefinição</button>
     </div>
     <script src="app.js" type="module"></script>
 </body>
-
 </html>
