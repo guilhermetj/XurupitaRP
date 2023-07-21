@@ -1,0 +1,47 @@
+[COMANDO CASAS]
+
+[COMO COMPRAR]:
+/enter (Caso esteja disponível aparece o valor para comprar)
+
+[ADICIONANDO PERMISSÕES]
+Com o novo sistema você pode adicionar permissões para entrar em sua residência sem precisar que esteja na cidade.
+/homes add NOMEDARESIDÊNCIA PASSAPORTE ( Adiciona a permissão da residência para o passaporte escolhido)
+
+[CHECANDO PERMISSÕES]
+Você também pode checar as permissões das pessoas com acesso a determinada residência.
+/homes check NOMEDARESIDÊNCIA (mostra todas as permissões da residência)
+
+[TRANSFERINDO RESIDÊNCIA]
+/homes transfer NOMEDARESIDÊNCIA PASSAPORTE (transfere a residência ao passaporte escolhido)
+
+[REMOVENDO PERMISSÕES]
+Você também pode remover a permissão das pessoas com acesso a residência.
+/homes rem NOMEDARESIDÊNCIA PASSAPORTE (remove a permissão da residência do passaporte escolhido)
+
+[PAGANDO O PROPERTY TAX(imposto)]
+/homes tax NOMEDARESIDENCIA ( Efetua o pagamento da Property Tax da residência )
+
+[DANDO PERMISSÃO A GARAGEM PARA OUTRA PESSOA]
+/homes garage NOMEDARESIDENCIA PASSAPORTE ( Permite a garagem por 50.000 dólares )
+
+[CHECANDO CASAS DISPONÍVEIS]
+/homes list ( Mostra no mapa todas as residências disponíveis a venda na cidade )
+
+[OUTFITS(guarda roupas)]
+/outfit ( Mostra todos os outfits )
+
+[ADICIONADO OUTFITS]
+/outfit save NOME (Para adicionar um outfit ao seu Guarda-Roupas segue o exemplo abaixo, lembrando que é o mesmo outfit para
+todas as pessoas que tem a permissão na residência.)
+
+[REMOVENDO OUTFITS]
+/outfit rem NOME
+
+[APLICANDO OUTFITS]
+/outfit apply NOME
+
+[SAIR DA CASA]
+/exit
+
+[BAU]
+/vault  
