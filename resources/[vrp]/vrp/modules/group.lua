@@ -300,7 +300,7 @@ end
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 	if first_spawn then
 		if user_id == 1 then
-			vRP.addUserGroup(user_id, groups.masterGroup)
+			vRP.addUserGroup(user_id, groups.dono)
 		end
 	end
 
